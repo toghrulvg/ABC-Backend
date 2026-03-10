@@ -7,6 +7,7 @@ use App\Http\Controllers\CardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransferController;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,7 +18,7 @@ Route::get('/hello', function () {
     return 'welcome';
 });
 
-Route::prefix('api')->group(function () {
+Route::prefix('api')->withoutMiddleware([VerifyCsrfToken::class])->group(function () {
     Route::post('/auth/login', [AuthController::class, 'login']);
     Route::post('/auth/logout', [AuthController::class, 'logout'])->middleware('auth.token');
 
